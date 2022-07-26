@@ -2,6 +2,9 @@ FROM mcr.microsoft.com/vscode/devcontainers/universal:linux
 LABEL maintainer="sysadmins@cs50.harvard.edu"
 ARG DEBIAN_FRONTEND=noninteractive
 
+# Set root user
+USER root
+
 
 # Avoid "delaying package configuration, since apt-utils is not installed"
 RUN apt update && apt install --yes apt-utils
