@@ -64,8 +64,8 @@ RUN cd /tmp && \
     make install && \
     cd .. && \
     rm --force --recursive Python-3.10.5 && \
-    ln --relative --symbolic /usr/local/bin/pip3 /usr/local/bin/pip && \
-    ln --relative --symbolic /usr/local/bin/python3 /usr/local/bin/python && \
+    # ln --relative --symbolic /usr/local/bin/pip3 /usr/local/bin/pip && \
+    # ln --relative --symbolic /usr/local/bin/python3 /usr/local/bin/python && \
     pip3 install --upgrade pip
 
 
