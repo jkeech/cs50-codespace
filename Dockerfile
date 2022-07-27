@@ -1,9 +1,6 @@
-FROM mcr.microsoft.com/vscode/devcontainers/universal:linux
+FROM mcr.microsoft.com/vscode/devcontainers/base:ubuntu-22.04
 LABEL maintainer="sysadmins@cs50.harvard.edu"
 ARG DEBIAN_FRONTEND=noninteractive
-
-# Set root user
-USER root
 
 
 # Avoid "delaying package configuration, since apt-utils is not installed"
@@ -64,8 +61,8 @@ RUN cd /tmp && \
     make install && \
     cd .. && \
     rm --force --recursive Python-3.10.5 && \
-    # ln --relative --symbolic /usr/local/bin/pip3 /usr/local/bin/pip && \
-    # ln --relative --symbolic /usr/local/bin/python3 /usr/local/bin/python && \
+    ln --relative --symbolic /usr/local/bin/pip3 /usr/local/bin/pip && \
+    ln --relative --symbolic /usr/local/bin/python3 /usr/local/bin/python && \
     pip3 install --upgrade pip
 
 
