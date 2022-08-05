@@ -119,9 +119,6 @@ ENV WORKDIR=/home/ubuntu
 
 # Start of cs50/codespace
 
-ARG DEBIAN_FRONTEND=noninteractive
-
-
 # Unset user
 USER root
 
