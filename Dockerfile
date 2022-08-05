@@ -1,44 +1,6 @@
 FROM mcr.microsoft.com/vscode/devcontainers/universal:latest
 LABEL maintainer="sysadmins@cs50.harvard.edu"
 
-
-# Avoid "delaying package configuration, since apt-utils is not installed"
-RUN apt update && apt install --yes apt-utils
-
-
-# Environment
-RUN apt update && \
-    apt install --yes locales && \
-    locale-gen "en_US.UTF-8" && dpkg-reconfigure locales
-
-
-# Unminimize system
-RUN yes | unminimize
-
-
-# Suggested build environment for Python, per pyenv, even though we're building ourselves
-# https://github.com/pyenv/pyenv/wiki#suggested-build-environment
-RUN apt update && \
-    apt install --no-install-recommends --yes \
-        make build-essential libssl-dev zlib1g-dev \
-        libbz2-dev libreadline-dev libsqlite3-dev llvm ca-certificates curl wget unzip \
-        libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-
-
-# Install Ruby 3.1.x
-# https://www.ruby-lang.org/en/downloads/
-RUN cd /tmp && \
-    curl https://cache.ruby-lang.org/pub/ruby/3.1/ruby-3.1.2.tar.gz --output ruby-3.1.2.tar.gz && \
-    tar xzf ruby-3.1.2.tar.gz && \
-    rm --force ruby-3.1.2.tar.gz && \
-    cd ruby-3.1.2 && \
-    ./configure && \
-    make && \
-    make install && \
-    cd .. && \
-    rm --force --recursive ruby-3.1.2
-
-
 # Install Ruby packages
 RUN gem install \
     bundler \
@@ -46,44 +8,6 @@ RUN gem install \
     jekyll-theme-cs50 \
     minitest `# So that Bundler needn't install` \
     pygments.rb
-
-
-# Install Python 3.10.x
-# https://www.python.org/downloads/
-RUN cd /tmp && \
-    curl https://www.python.org/ftp/python/3.10.5/Python-3.10.5.tgz --output Python-3.10.5.tgz && \
-    tar xzf Python-3.10.5.tgz && \
-    rm --force Python-3.10.5.tgz && \
-    cd Python-3.10.5 && \
-    ./configure && \
-    make && \
-    make install && \
-    cd .. && \
-    rm --force --recursive Python-3.10.5 && \
-    ln --relative --symbolic /usr/local/bin/pip3 /usr/local/bin/pip && \
-    ln --relative --symbolic /usr/local/bin/python3 /usr/local/bin/python && \
-    pip3 install --upgrade pip
-
-
-# Install Java 18.x
-# http://jdk.java.net/18/
-RUN cd /tmp && \
-    wget https://download.java.net/java/GA/jdk18.0.1.1/65ae32619e2f40f3a9af3af1851d6e19/2/GPL/openjdk-18.0.1.1_linux-x64_bin.tar.gz && \
-    tar xzf openjdk-18.0.1.1_linux-x64_bin.tar.gz && \
-    rm --force openjdk-18.0.1.1_linux-x64_bin.tar.gz && \
-    mv jdk-18.0.1.1 /opt/ && \
-    mkdir --parent /opt/bin && \
-    ln --symbolic /opt/jdk-18.0.1.1/bin/* /opt/bin/ && \
-    chmod a+rx /opt/bin/*
-
-
-# Install Node.js 18.x
-# https://nodejs.dev/download
-# https://github.com/tj/n#installation
-RUN curl --location https://raw.githubusercontent.com/tj/n/master/bin/n --output /usr/local/bin/n && \
-    chmod a+x /usr/local/bin/n && \
-    n 18.2.0
-
 
 # Install Node.js packages
 RUN npm install -g http-server
