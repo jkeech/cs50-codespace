@@ -1,6 +1,5 @@
-FROM mcr.microsoft.com/vscode/devcontainers/base:ubuntu-22.04
+FROM mcr.microsoft.com/vscode/devcontainers/universal:latest
 LABEL maintainer="sysadmins@cs50.harvard.edu"
-ARG DEBIAN_FRONTEND=noninteractive
 
 
 # Avoid "delaying package configuration, since apt-utils is not installed"
